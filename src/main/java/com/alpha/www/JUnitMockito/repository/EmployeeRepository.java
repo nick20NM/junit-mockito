@@ -3,6 +3,7 @@ package com.alpha.www.JUnitMockito.repository;
 import com.alpha.www.JUnitMockito.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -13,4 +14,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     // JPQL custom query with index params
     @Query("select e from Employee e where e.firstName = ?1 and e.lastName = ?2")
     Employee findByJPQL(String firstName, String lastName);
+
+    // JPQL custom query with named params
+    @Query("select e from Employee e where e.firstName =:firstName and e.lastName =:lastName")
+    Employee findByJPQLNamedParams(@Param("firstName") String firstName, @Param("lastName") String lastName);
 }
