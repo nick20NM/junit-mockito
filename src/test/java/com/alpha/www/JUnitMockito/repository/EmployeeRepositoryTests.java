@@ -218,4 +218,25 @@ public class EmployeeRepositoryTests {
         assertThat(savedEmployee).isNotNull();
     }
 
+    // JUnit test for custom query using native SQL with named params
+    @DisplayName("JUnit test for custom query using native SQL with named params")
+    @Test
+    public void givenFirstNameAndLastName_whenFindByNativeSQLNamedParams_thenReturnEmployeeObject(){
+
+        // given - pre condition or setup
+        Employee employee=Employee.builder()
+                .firstName("tom")
+                .lastName("sharma")
+                .email("tom@gmail.com")
+                .build();
+
+        employeeRepository.save(employee);
+
+        // when - action or behavior that we are going to test
+        Employee savedEmployee=employeeRepository.findByNativeSQLNamedParams(employee.getFirstName(),employee.getLastName());
+
+        // then - verify the output
+        assertThat(savedEmployee).isNotNull();
+
+    }
 }
