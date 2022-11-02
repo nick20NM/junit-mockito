@@ -12,8 +12,13 @@ import java.util.Optional;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Autowired
+//    @Autowired
     private EmployeeRepository employeeRepository;
+
+    // constructor based dependency injection, @Autowired not required
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @Override
     public Employee saveEmployee(Employee employee) {
