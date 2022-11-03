@@ -4,7 +4,8 @@ import com.alpha.www.JUnitMockito.entity.Employee;
 import com.alpha.www.JUnitMockito.exception.ResourceNotFoundException;
 import com.alpha.www.JUnitMockito.repository.EmployeeRepository;
 import com.alpha.www.JUnitMockito.service.impl.EmployeeServiceImpl;
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+//import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,6 @@ public class EmployeeServiceTests {
     @DisplayName("JUnit test for saveEmployee method")
     @Test
     public void givenEmployeeObject_whenSaveEmployee_thenReturnEmployeeObject(){
-
         // given - pre condition or setup
 //        Employee employee=Employee.builder()
 //                .id(1L)
@@ -81,7 +81,7 @@ public class EmployeeServiceTests {
         System.out.println(savedEmployee);
 
         // then - verify the output
-        Assertions.assertThat(savedEmployee).isNotNull();
+        assertThat(savedEmployee).isNotNull();
     }
 
     // JUnit test for saveEmployee method which throws exception
@@ -123,8 +123,8 @@ public class EmployeeServiceTests {
         List<Employee> employeeList=employeeServiceImpl.getAllEmployees();
 
         // then - verify the output
-        Assertions.assertThat(employeeList).isNotNull();
-        Assertions.assertThat(employeeList.size()).isEqualTo(2);
+        assertThat(employeeList).isNotNull();
+        assertThat(employeeList.size()).isEqualTo(2);
     }
 
     // JUnit test for getAllEmployess method (negative scenario)
@@ -144,7 +144,21 @@ public class EmployeeServiceTests {
         List<Employee> employeeList=employeeServiceImpl.getAllEmployees();
 
         // then - verify the output
-        Assertions.assertThat(employeeList).isNotNull();
-        Assertions.assertThat(employeeList.size()).isEqualTo(0);
+        assertThat(employeeList).isNotNull();
+        assertThat(employeeList.size()).isEqualTo(0);
+    }
+
+    // JUnit test for getEmployeeById method
+    @DisplayName("JUnit test for getEmployeeById method")
+    @Test
+    public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject(){
+        // given - pre condition or setup
+        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+
+        // when - action or behavior that we are going to test
+        Employee savedEmployee=employeeServiceImpl.getEmployeeById(employee.getId()).get();
+
+        // then - verify the output
+        assertThat(savedEmployee).isNotNull();
     }
 }
