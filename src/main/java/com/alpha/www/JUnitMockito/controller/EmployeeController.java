@@ -23,6 +23,7 @@ public class EmployeeController {
         return employeeService.saveEmployee(employee);
     }
 
+    @GetMapping
     public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
     }

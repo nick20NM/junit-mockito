@@ -16,6 +16,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest
@@ -57,5 +60,25 @@ public class EmployeeControllerTests {
                         CoreMatchers.is(employee.getLastName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",
                         CoreMatchers.is(employee.getEmail())));
+    }
+
+    // JUnit test for get all employees REST api
+    @Test
+    public void givenListOfEmployees_whenGetAllEmployees_thenReturnEmployeesList() throws Exception{
+        // given - pre condition or setup
+        List<Employee> listOfEmployees = new ArrayList<>();
+        listOfEmployees.add(Employee.builder().firstName("tom").lastName("sharma").email("tom@gmail.com").build());
+        listOfEmployees.add(Employee.builder().firstName("tony").lastName("stark").email("tony@gmail.com").build());
+
+        BDDMockito.given(employeeService.getAllEmployees()).willReturn(listOfEmployees);
+
+        // when - action or behavior that we are going to test
+        ResultActions response=mockMvc.perform(get("/api/employees"));
+
+        // then - verify the output
+        response.andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()",
+                        CoreMatchers.is(listOfEmployees.size())));
     }
 }
