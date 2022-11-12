@@ -34,7 +34,7 @@ public class EmployeeControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // JUnit test for
+    // JUnit test for create employee REST api
     @Test
     public void givenEmployeeObject_whenCreateEmployee_thenReturnSavedEmployee() throws Exception{
         // given - pre condition or setup
